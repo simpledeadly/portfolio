@@ -1,34 +1,63 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Портфолио Дмитрия</title>
-<style>
-body { background:#111;color:#0f0;font-family:monospace;display:flex;flex-direction:column;align-items:center;padding:2rem; }
-.container { max-width:800px; }
-button { background:#222;color:#0f0;border:1px solid #0f0;padding:0.5rem 1rem;cursor:pointer;margin-top:1rem; }
-output { margin-top:1rem; font-size:1.2rem; }
-a { color:#0ff; }
-</style>
+  <meta charset="UTF-8" />
+  <title>Портфолио Дмитрия</title>
+  <!-- Monospace font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #2E3440;      /* Nord dark background */
+      --bg-light: #3B4252;/* slightly lighter */
+      --text: #D8DEE9;    /* Nord light text */
+      --accent: #81A1C1;  /* Nord blue */
+      --accent-dark: #5E81AC;
+    }
+    body {
+      font-family: 'Fira Code', monospace;
+      background: var(--bg);
+      color: var(--text);
+      margin: 2rem;
+    }
+    h1, h2 {
+      color: var(--accent);
+    }
+    a { color: var(--accent-dark); }
+    .generator {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: var(--bg-light);
+      border: 1px solid var(--accent-dark);
+    }
+    .output {
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+    button {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    button:hover { background: var(--accent-dark); }
+  </style>
 </head>
 <body>
-<div class="container">
-<h1>Портфолио Дмитрия</h1>
-<p>Краткое био: (заполните позже).</p>
-<h2>Проекты</h2>
-<ul>
-<li><a href="https://github.com/simpledeadly/project1" target="_blank">Project 1</a> – Описание проекта.</li>
-<li><a href="https://github.com/simpledeadly/project2" target="_blank">Project 2</a> – Описание проекта.</li>
-</ul>
-<h2>Генератор случайных чисел</h2>
-<button id="gen">Сгенерировать</button>
-<output id="out"></output>
-<script>
-document.getElementById('gen').addEventListener('click',()=>{
-  const n = Math.floor(Math.random()*1000);
-  document.getElementById('out').textContent='→ '+n;
-});
-</script>
-</div>
+  <h1>Привет! Я Дмитрий</h1>
+  <p>Краткое био: разработчик, любитель Linux, исследователь новых технологий.</p>
+  <h2>Генератор случайных чисел (терминальный стиль)</h2>
+  <div class="generator">
+    <button onclick="generate()">$ generate</button>
+    <div class="output" id="out"></div>
+  </div>
+  <script>
+    function generate(){
+      const num = Math.floor(Math.random()*1000000);
+      const out = document.getElementById('out');
+      out.textContent = `$ echo ${num}`;
+    }
+  </script>
 </body>
 </html>
