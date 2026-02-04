@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Портфолио Дмитрия</title>
+<style>
+body { background:#111;color:#0f0;font-family:monospace;display:flex;flex-direction:column;align-items:center;padding:2rem; }
+.container { max-width:800px; }
+button { background:#222;color:#0f0;border:1px solid #0f0;padding:0.5rem 1rem;cursor:pointer;margin-top:1rem; }
+output { margin-top:1rem; font-size:1.2rem; }
+a { color:#0ff; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Портфолио Дмитрия</h1>
+<p>Краткое био: (заполните позже).</p>
+<h2>Проекты</h2>
+<ul>
+<li><a href="https://github.com/simpledeadly/project1" target="_blank">Project 1</a> – Описание проекта.</li>
+<li><a href="https://github.com/simpledeadly/project2" target="_blank">Project 2</a> – Описание проекта.</li>
+</ul>
+<h2>Генератор случайных чисел</h2>
+<button id="gen">Сгенерировать</button>
+<output id="out"></output>
+<script>
+document.getElementById('gen').addEventListener('click',()=>{
+  const n = Math.floor(Math.random()*1000);
+  document.getElementById('out').textContent='→ '+n;
+});
+</script>
+</div>
+</body>
+</html>
