@@ -2,62 +2,810 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Портфолио Дмитрия</title>
-  <!-- Monospace font from Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>simpledeadly</title>
   <style>
+    @font-face {
+      font-family: 'Aptos';
+      src: local('Aptos'),
+           url('./fonts/Aptos.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Aptos';
+      src: local('Aptos Bold'),
+           url('./fonts/Aptos-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Aptos';
+      src: local('Aptos ExtraBold'),
+           url('./fonts/Aptos-ExtraBold.ttf') format('truetype');
+      font-weight: 800;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Aptos';
+      src: local('Aptos Black'),
+           url('./fonts/Aptos-Black.ttf') format('truetype');
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Aptos';
+      src: local('Aptos ExtraBold Italic'),
+           url('./fonts/Aptos-ExtraBold-Italic.ttf') format('truetype');
+      font-weight: 800;
+      font-style: italic;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Aptos';
+      src: local('Aptos Black Italic'),
+           url('./fonts/Aptos-Black-Italic.ttf') format('truetype');
+      font-weight: 900;
+      font-style: italic;
+      font-display: swap;
+    }
+
     :root {
-      --bg: #2E3440;      /* Nord dark background */
-      --bg-light: #3B4252;/* slightly lighter */
-      --text: #D8DEE9;    /* Nord light text */
-      --accent: #81A1C1;  /* Nord blue */
-      --accent-dark: #5E81AC;
+      --c-bg: #EDE0D4;
+      --c-surface: #F9F5F1;   /* Новый цвет карточек: слоновая кость/молочный */
+      --c-accent: #2E72B2;
+      --c-text: #2A1813;
+      --c-muted: #5C4841;
+      --c-border: rgba(42, 24, 19, 0.12);
+      --font-family: 'Aptos', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
     body {
-      font-family: 'Fira Code', monospace;
-      background: var(--bg);
-      color: var(--text);
-      margin: 2rem;
+      background-color: var(--c-bg);
+      color: var(--c-text);
+      font-family: var(--font-family);
+      line-height: 1.55;
+      padding: 5.5rem 2.5rem 4rem;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
-    h1, h2 {
-      color: var(--accent);
+
+    /* Ширина контейнера */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 310px minmax(0, 1fr);
+      gap: 3.5rem;
+      align-items: start;
+      min-height: calc(100vh - 9rem);
+      width: 100%;
+      box-sizing: border-box;
     }
-    a { color: var(--accent-dark); }
-    .generator {
-      margin-top: 2rem;
-      padding: 1rem;
-      background: var(--bg-light);
-      border: 1px solid var(--accent-dark);
-    }
-    .output {
-      font-weight: 600;
-      margin-top: 0.5rem;
-    }
-    button {
-      background: var(--accent);
-      color: var(--bg);
+
+    /* Левая колонка — строго неподвижна на широком экране */
+    .sidebar {
+      position: sticky;
+      top: 5.5rem; /* Точно совпадает с верхним отступом: ноль сдвига при начале скролла */
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      background: transparent;
       border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      font-family: inherit;
+      padding: 0;
     }
-    button:hover { background: var(--accent-dark); }
+
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+    }
+
+    /* Аватар */
+    .avatar-wrapper {
+      position: relative;
+      width: 165px;
+      height: 165px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: none;
+      background: transparent;
+      flex-shrink: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+
+    .avatar-shield {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--c-text);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .handle {
+      font-size: 1.25rem;
+      color: var(--c-muted);
+      font-weight: 400;
+    }
+
+    /* Контакты — десктоп */
+    .contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      border-top: 1px solid var(--c-border);
+      padding-top: 0.85rem; /* Уменьшено примерно в 2 раза */
+    }
+
+    .contacts-title {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--c-muted);
+      font-weight: 700;
+    }
+
+    .contact-link {
+      color: var(--c-text);
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: color 0.06s ease;
+      width: fit-content;
+    }
+
+    .contact-link svg {
+      color: var(--c-accent);
+      transition: opacity 0.06s ease;
+      flex-shrink: 0;
+    }
+
+    .contact-link:hover {
+      color: var(--c-accent);
+    }
+
+    /* Правая колонка — потолок приподнят выше относительно левой колонки */
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      width: 100%;
+      margin-top: -1.75rem;
+    }
+
+    .content-title {
+      font-size: 2.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--c-text);
+      line-height: 1.2;
+    }
+
+    .projects-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+    }
+
+    .project-card {
+      background: var(--c-surface);
+      border: none;
+      border-radius: 20px;
+      padding: 1.85rem 2.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .project-card h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--c-text);
+      line-height: 1.3;
+      margin: 0;
+    }
+
+    .project-card p {
+      font-size: 1.05rem;
+      color: var(--c-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .project-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin: 0.1rem 0;
+      padding: 0;
+    }
+
+    .project-features li {
+      font-size: 1.02rem;
+      color: var(--c-muted);
+      line-height: 1.55;
+      position: relative;
+      padding-left: 1.4rem;
+    }
+
+    .project-features li::before {
+      content: "–"; /* en-dash (среднее тире) */
+      position: absolute;
+      left: 0;
+      color: var(--c-accent);
+      font-weight: 600;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 0.15rem;
+    }
+
+    .tag {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--c-muted);
+      background: rgba(42, 24, 19, 0.05);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      letter-spacing: 0.01em;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.15rem;
+    }
+
+    .project-link {
+      color: var(--c-accent);
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: opacity 0.06s ease;
+    }
+
+    .project-link:hover {
+      text-decoration: underline;
+      opacity: 0.85;
+    }
+
+    .project-link svg {
+      flex-shrink: 0;
+    }
+
+    .project-link-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      padding: 0;
+      color: var(--c-accent);
+      font-size: 1.05rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      align-items: center;
+      gap: 0.45rem;
+      text-decoration: none;
+      transition: opacity 0.06s ease;
+    }
+
+    .project-link-btn:hover {
+      text-decoration: underline;
+      opacity: 0.85;
+    }
+
+    /* Расположение с миниатюрой справа на широких экранах */
+    .project-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 125px;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .project-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .project-thumb-wrapper {
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .project-thumb-img {
+      width: 125px;
+      height: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 18px rgba(42, 24, 19, 0.15));
+      pointer-events: none;
+    }
+
+    .thumb-badge {
+      margin-top: 0.65rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--c-muted);
+      background: rgba(42, 24, 19, 0.06);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+      transition: background 0.06s ease, color 0.06s ease;
+      white-space: nowrap;
+    }
+
+    .thumb-badge svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .project-thumb-wrapper:hover .thumb-badge {
+      background: var(--c-accent);
+      color: #fff;
+    }
+
+    /* МОДАЛКА С АККУРАТНЫМ НАКЛОНОМ */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(42, 24, 19, 0.42);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.1s ease-out;
+      padding: 1.5rem;
+    }
+
+    .modal-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-dialog {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -3.25rem;
+      right: -0.75rem;
+      background: transparent;
+      border: none;
+      color: #EDE0D4;
+      font-size: 2.25rem;
+      line-height: 1;
+      cursor: pointer;
+      opacity: 0.75;
+      transition: opacity 0.08s ease, transform 0.08s ease;
+      padding: 0.5rem;
+      z-index: 10;
+    }
+
+    .modal-close:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .tilt-card-wrapper {
+      perspective: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tilt-card {
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      transform: none;
+      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+      box-shadow: 0 20px 50px rgba(22, 12, 9, 0.3), 0 4px 14px rgba(22, 12, 9, 0.15);
+      max-height: 78vh;
+      display: inline-block;
+      user-select: none;
+      -webkit-user-select: none;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .tilt-card-img {
+      display: block;
+      max-height: 78vh;
+      max-width: 88vw;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    /* АДАПТИВ ДЛЯ ПЛАНШЕТОВ И ЭКРАНОВ СРЕДНЕЙ ШИРИНЫ (<= 1040px) */
+    @media (max-width: 1040px) {
+      body {
+        padding: 2.5rem 1.5rem 3.5rem;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        min-height: auto;
+      }
+
+      .sidebar {
+        position: static;
+        top: auto;
+        gap: 1rem;
+      }
+
+      /* Фото и имя в компактную горизонтальную строчку */
+      .profile-header {
+        flex-direction: row;
+        align-items: center;
+        gap: 1.25rem;
+      }
+
+      .avatar-wrapper {
+        width: 84px;
+        height: 84px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .handle {
+        font-size: 1.05rem;
+      }
+
+      /* Контакты в аккуратную компактную горизонтальную полосу кнопок */
+      .contacts {
+        border-top: none;
+        padding-top: 0;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .contacts-title {
+        display: none; /* Прячем заголовок "Контакты" для экономии высоты */
+      }
+
+      .contact-link {
+        font-size: 0.95rem;
+        padding: 0.45rem 0.85rem;
+        background: rgba(42, 24, 19, 0.06);
+        border-radius: 10px;
+        gap: 0.45rem;
+        transition: background 0.06s ease, color 0.06s ease;
+      }
+
+      .contact-link:hover {
+        background: rgba(42, 24, 19, 0.12);
+      }
+
+      .contact-link svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .content {
+        margin-top: 0;
+      }
+
+      .content-title {
+        font-size: 1.4rem;
+      }
+
+      .project-card {
+        padding: 1.4rem 1.5rem;
+      }
+    }
+
+    /* На экранах уже 1150px убираем картинку из карточки и показываем аккуратную ссылку */
+    @media (max-width: 1150px) {
+      .project-split {
+        display: block;
+      }
+
+      .project-thumb-wrapper {
+        display: none !important;
+      }
+
+      .project-link-btn {
+        display: inline-flex;
+      }
+    }
+
+    @media (hover: none) or (max-width: 768px) {
+      .tilt-card {
+        transform: none !important;
+        box-shadow: 0 15px 35px rgba(22, 12, 9, 0.25) !important;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Привет! Я Дмитрий</h1>
-  <p>Краткое био: разработчик, любитель Linux, исследователь новых технологий.</p>
-  <h2>Генератор случайных чисел (терминальный стиль)</h2>
-  <div class="generator">
-    <button onclick="generate()">$ generate</button>
-    <div class="output" id="out"></div>
+
+  <div class="container">
+    <!-- Левая колонка -->
+    <aside class="sidebar">
+      <div class="profile-header">
+        <div class="avatar-wrapper" oncontextmenu="return false;">
+          <img src="assets/avatar.jpg" alt="Дмитрий Сикаченко" class="avatar" draggable="false" />
+          <div class="avatar-shield" oncontextmenu="return false;"></div>
+        </div>
+
+        <div class="profile-info">
+          <h1>Дмитрий Сикаченко</h1>
+          <div class="handle">@simpledeadly</div>
+        </div>
+      </div>
+
+      <nav class="contacts">
+        <div class="contacts-title">Контакты</div>
+        <a href="https://t.me/simpledeadly" target="_blank" rel="noopener noreferrer" class="contact-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+          <span>Telegram</span>
+        </a>
+        <a href="https://vk.com/simpledeadly" target="_blank" rel="noopener noreferrer" class="contact-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M15.07 2H8.93C4.33 2 2 4.33 2 8.93v6.14C2 19.67 4.33 22 8.93 22h6.14c4.6 0 6.93-2.33 6.93-6.93V8.93C22 4.33 19.67 2 15.07 2zm3.38 13.91h-1.63c-.61 0-.8-.49-1.9-1.59-1-.96-1.44-1.08-1.69-1.08-.34 0-.44.1-.44.59v1.43c0 .39-.12.65-1.17.65-1.74 0-3.66-1.05-5.02-3.02-2.05-2.91-2.61-5.11-2.61-5.56 0-.25.1-.48.59-.48h1.63c.44 0 .61.2.78.68.85 2.49 2.29 4.67 2.88 4.67.22 0 .32-.1.32-.65v-2.53c-.07-1.16-.67-1.26-.67-1.67 0-.2.17-.39.44-.39h2.56c.36 0 .49.19.49.62v3.42c0 .37.16.49.27.49.22 0 .41-.12.83-.54 1.29-1.45 2.21-3.69 2.21-3.69.12-.25.34-.48.78-.48h1.63c.49 0 .6.25.49.6-.2 0.94-2.18 3.73-2.28 3.89-.22.34-.31.49 0 .91.22.31.96.94 1.45 1.51.91 1.06 1.6 1.95 1.79 2.56.12.38-.1.58-.48.58z"/></svg>
+          <span>VK</span>
+        </a>
+        <a href="https://github.com/simpledeadly" target="_blank" rel="noopener noreferrer" class="contact-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="mailto:dsikachenko@gmail.com" class="contact-link">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <span>Email</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Правая колонка: Проекты -->
+    <main class="content">
+      <h2 class="content-title">Проекты</h2>
+
+      <div class="projects-stack">
+        <!-- Проект 1 -->
+        <article class="project-card">
+          <h2>Автоматизация установки PNETLab на VPS Ansible-плейбуком</h2>
+          <p>
+            Автоматическое развертывание эмулятора сетевых топологий PNETLab на чистый сервер одной командой вместо ручной настройки перед лабораторными работами.
+          </p>
+
+          <ul class="project-features">
+            <li>Параллельная передача на сервер архивов и qcow2-образов объемом 10–11 ГБ во время подготовки системного окружения</li>
+            <li>Автоматическая распаковка и перенос образов и шаблонов лабораторных работ в систему</li>
+            <li>Развертывание стенда одной командой вместо 25 минут пошагового ручного ввода команд и дежурства у терминала</li>
+          </ul>
+
+          <div class="project-tags">
+            <span class="tag">Ansible</span>
+            <span class="tag">Ubuntu</span>
+            <span class="tag">Linux</span>
+            <span class="tag">Bash</span>
+            <span class="tag">PNETLab</span>
+          </div>
+        </article>
+
+        <!-- Проект 2 -->
+        <article class="project-card">
+          <div class="project-split">
+            <div class="project-text">
+              <h2>Wi-Fi пульт для ресивера на основе ESP32</h2>
+              <p>
+                Веб-пульт и аппаратный контроллер для беспроводного управления домашним кинотеатром по локальной сети.
+              </p>
+
+              <ul class="project-features">
+                <li>Управление питанием, громкостью, выбором треков и приводом с любого устройства по Wi-Fi из любой комнаты без зоны прямой видимости</li>
+                <li>Трансляция команд ресиверу по инфракрасному протоколу Philips RC-6 через транзисторный передатчик</li>
+                <li>Физическая кнопка на корпусе для управления без смартфона: переключение режимов звука и запуск случайного трека по двойному клику</li>
+              </ul>
+
+              <div class="project-tags">
+                <span class="tag">ESP32</span>
+                <span class="tag">C/C++</span>
+                <span class="tag">Web UI</span>
+              </div>
+
+              <div class="project-links">
+                <a href="https://drive.google.com/file/d/1j84Kr3S00Ym5XZnqhw381ylszFwpELNl/view" target="_blank" rel="noopener noreferrer" class="project-link">
+                  <span>Видео-демонстрация</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                </a>
+                <button type="button" class="project-link-btn" id="open-remote-modal-btn">
+                  <span>Интерфейс пульта</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="project-thumb-wrapper" id="open-remote-modal" title="Нажмите, чтобы открыть интерфейс">
+              <img src="assets/esp32-remote.png" alt="Веб-интерфейс пульта" class="project-thumb-img" draggable="false" />
+              <div class="thumb-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                <span>Интерфейс</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </main>
   </div>
+
+  <!-- МОДАЛКА ИНТЕРФЕЙСА -->
+  <div id="remote-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-dialog">
+      <button class="modal-close" id="close-remote-modal" aria-label="Закрыть">&times;</button>
+      <div class="tilt-card-wrapper" id="tilt-card-wrapper">
+        <div class="tilt-card" id="tilt-card">
+          <img src="assets/esp32-remote.png" alt="Веб-интерфейс пульта Philips LX3600D" class="tilt-card-img" draggable="false" />
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    function generate(){
-      const num = Math.floor(Math.random()*1000000);
-      const out = document.getElementById('out');
-      out.textContent = `$ echo ${num}`;
-    }
+    (function() {
+      const modal = document.getElementById('remote-modal');
+      const openBtn = document.getElementById('open-remote-modal');
+      const openBtnLink = document.getElementById('open-remote-modal-btn');
+      const closeBtn = document.getElementById('close-remote-modal');
+      const tiltCard = document.getElementById('tilt-card');
+
+      if (!modal || !tiltCard) return;
+
+      const baseShadow = '0 20px 50px rgba(22, 12, 9, 0.3), 0 4px 14px rgba(22, 12, 9, 0.15)';
+
+      function openModal() {
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        resetTilt();
+      }
+
+      function closeModal() {
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        resetTilt();
+      }
+
+      if (openBtn) openBtn.addEventListener('click', openModal);
+      if (openBtnLink) openBtnLink.addEventListener('click', openModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal || e.target.classList.contains('modal-dialog') || e.target.classList.contains('tilt-card-wrapper')) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+          closeModal();
+        }
+      });
+
+      function resetTilt() {
+        tiltCard.style.transform = 'none';
+        tiltCard.style.boxShadow = baseShadow;
+      }
+
+      let rafId = null;
+      function handleMouseMove(e) {
+        if (!modal.classList.contains('is-open')) return;
+        if (window.matchMedia('(hover: none)').matches) return;
+
+        const rect = tiltCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const dx = (x - cx) / cx;
+        const dy = (y - cy) / cy;
+
+        // Небольшой аккуратный угол наклона
+        const maxAngle = 7;
+        const rotX = Math.max(-maxAngle, Math.min(maxAngle, -dy * maxAngle));
+        const rotY = Math.max(-maxAngle, Math.min(maxAngle, dx * maxAngle));
+
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          tiltCard.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+          
+          const shadowX = -dx * 12;
+          const shadowY = -dy * 12 + 22;
+          tiltCard.style.boxShadow = `${shadowX.toFixed(1)}px ${shadowY.toFixed(1)}px 48px rgba(22, 12, 9, 0.32), 0 4px 14px rgba(22, 12, 9, 0.15)`;
+        });
+      }
+
+      // Наклон срабатывает строго при наведении курсора на саму карточку
+      tiltCard.addEventListener('mousemove', handleMouseMove);
+      tiltCard.addEventListener('mouseleave', resetTilt);
+    })();
   </script>
 </body>
 </html>
